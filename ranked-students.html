@@ -1,0 +1,95 @@
+<!doctype html>
+<html> 
+ <head> 
+  <title>Student Ranking</title> 
+  <style>
+      table {
+        border-collapse: collapse;
+        width: 100%;
+      }
+      th, td {
+        text-align: left;
+        padding: 8px;
+      }
+      th {
+        background-color: #4CAF50;
+        color: white;
+      }
+      tr:nth-child(even) {background-color: #f2f2f2;}
+      input[type=text], input[type=number] {
+        width: 100%;
+        padding: 12px 20px;
+        margin: 8px 0;
+        box-sizing: border-box;
+      }
+      button {
+        background-color: #4CAF50;
+        color: white;
+        padding: 14px 20px;
+        margin: 8px 0;
+        border: none;
+        cursor: pointer;
+        width: 100%;
+      }
+      button:hover {
+        opacity: 0.8;
+      }
+    </style> 
+ </head> 
+ <body> 
+  <h2>Enter Student Details:</h2> 
+  <form> <label for="name">Name:</label> 
+   <input type="text" id="name" name="name" required> <label for="marks">Marks:</label> 
+   <input type="number" id="marks" name="marks" required> <button type="button" onclick="addStudent()">Add</button> 
+  </form> 
+  <br> 
+  <h2>Student Ranking:</h2> 
+  <table id="ranking"> 
+   <tbody>
+    <tr> 
+     <th>Rank</th> 
+     <th>Name</th> 
+     <th>Marks</th> 
+    </tr> 
+   </tbody>
+  </table> 
+  <script>
+      let students = [];
+      
+      function addStudent() {
+        const name = document.getElementById("name").value;
+        const marks = document.getElementById("marks").value;
+        if (name && marks) {
+          students.push({
+            name: name,
+            marks: marks
+          });
+          document.getElementById("name").value = "";
+          document.getElementById("marks").value = "";
+          updateRanking();
+        }
+      }
+      
+      function updateRanking() {
+        students.sort((a, b) => b.marks - a.marks);
+        const table = document.getElementById("ranking");
+        table.innerHTML = `
+          <tr>
+            <th>Rank</th>
+            <th>Name</th>
+            <th>Marks</th>
+          </tr>
+        `;
+        for (let i = 0; i < students.length; i++) {
+          const row = table.insertRow(i + 1);
+          const rank = row.insertCell(0);
+          const name = row.insertCell(1);
+          const marks = row.insertCell(2);
+          rank.innerHTML = i + 1;
+          name.innerHTML = students[i].name;
+          marks.innerHTML = students[i].marks;
+        }
+      }
+    </script> 
+ 
+</body></html>
